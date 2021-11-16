@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace GlobalErrorHandlingProject.API
             logger.LogInformation("project start");
 
             host.Run();
+
+         
         }
 
         public static IWebHostBuilder CreateHostBuilder(string[] args) =>
@@ -27,8 +30,7 @@ namespace GlobalErrorHandlingProject.API
              .UseStartup<Startup>().ConfigureLogging(logging =>
              {
                  logging.ClearProviders();
-                 logging.AddDebug();
-                 logging.AddConsole();
-             });
+              
+             }).UseNLog();
     }
 }

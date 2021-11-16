@@ -1,3 +1,4 @@
+using GlobalErrorHandlingProject.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,11 +17,11 @@ namespace GlobalErrorHandlingProject.API
     public class Startup
     {
 
-        private readonly ILogger<Startup> _logger;
-        public Startup(IConfiguration configuration , ILogger<Startup> logger)
+        private ILogger _log;
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _logger = logger;
+          
         }
 
         public IConfiguration Configuration { get; }
@@ -28,8 +29,14 @@ namespace GlobalErrorHandlingProject.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddTransient<ILogger>();
+            //var sp = services.BuildServiceProvider();
+            //var testLog = sp.GetService<ILogger>();
+
+            //_log = testLog;
+
             services.AddControllers();
-            _logger.LogInformation("Service started");
+           // _logger.LogInformation("Service started");
            
         }
 
@@ -40,6 +47,8 @@ namespace GlobalErrorHandlingProject.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.ConfigureExceptionHandler();
 
             app.UseHttpsRedirection();
 

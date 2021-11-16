@@ -27,19 +27,20 @@ namespace GlobalErrorHandlingProject.API.Controllers
         [HttpGet(template: "getall")]
         public IActionResult GetList()
         {
-          
+
             try
             {
-                _logger.LogInformation("test");
                 var result = plist;
+                _logger.LogInformation($"Returning count: {result.Count}");
+                throw new Exception("Excepiton :sorry mario the princess is in another castle :)");
                 return Ok(result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                return BadRequest();
+                _logger.LogError($"Something went wrong: {ex}");
+                return StatusCode(500, "Internal server error");
             }
-           
+
         }
 
     }
