@@ -15,9 +15,12 @@ namespace GlobalErrorHandlingProject.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+
+        private readonly ILogger<Startup> _logger;
+        public Startup(IConfiguration configuration , ILogger<Startup> logger)
         {
             Configuration = configuration;
+            _logger = logger;
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +29,8 @@ namespace GlobalErrorHandlingProject.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            _logger.LogInformation("Service started");
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
