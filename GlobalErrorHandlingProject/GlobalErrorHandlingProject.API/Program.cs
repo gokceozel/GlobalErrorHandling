@@ -1,14 +1,7 @@
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using NLog.Web;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Serilog;
+using System.IO;
 
 namespace GlobalErrorHandlingProject.API
 {
@@ -16,21 +9,25 @@ namespace GlobalErrorHandlingProject.API
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-            var logger = host.Services.GetRequiredService<ILogger<Program>>();
-            logger.LogInformation("project start");
 
-            host.Run();
+            var logFilePath = Path.Combine(Directory.GetCurrentDirectory(), "/logs/");
 
-         
+            Log.Logger = new LoggerConfiguration()
+               .WriteTo.Debug(Serilog.Events.LogEventLevel.Information)
+               .WriteTo.File("logs.txt")
+                .CreateLogger();
+
+            CreateHostBuilder(args).Build().Run();
+
         }
 
-        public static IWebHostBuilder CreateHostBuilder(string[] args) =>
-               WebHost.CreateDefaultBuilder(args)
-             .UseStartup<Startup>().ConfigureLogging(logging =>
-             {
-                 logging.ClearProviders();
-              
-             }).UseNLog();
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+                Host.CreateDefaultBuilder(args)
+                    .ConfigureWebHostDefaults(webBuilder =>
+                    {
+                        webBuilder.UseStartup<Startup>();
+                    });
+
+
     }
 }

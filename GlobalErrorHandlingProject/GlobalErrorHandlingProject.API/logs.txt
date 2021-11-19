@@ -1,0 +1,2 @@
+2021-11-19 23:34:26.259 +03:00 [ERR] {"StatusCode":500,"Message":"Something went wrong. Please try again."}
+2021-11-19 23:34:26.259 +03:00 [ERR] {"StatusCode":500,"Message":"Something went wrong. Please try again."}

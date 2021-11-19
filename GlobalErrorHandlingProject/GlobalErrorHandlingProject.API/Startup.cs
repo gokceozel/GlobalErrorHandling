@@ -36,19 +36,23 @@ namespace GlobalErrorHandlingProject.API
             //_log = testLog;
 
             services.AddControllers();
-           // _logger.LogInformation("Service started");
-           
+
+
+            services.AddLogging(logging =>
+            {
+                logging.ClearProviders();
+                //Set minimum level yanlýzca istediðin loglarý yaz
+                logging.SetMinimumLevel(LogLevel.Error);
+                logging.AddDebug();
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
 
-            app.ConfigureExceptionHandler();
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 

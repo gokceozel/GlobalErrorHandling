@@ -28,19 +28,10 @@ namespace GlobalErrorHandlingProject.API.Controllers
         public IActionResult GetList()
         {
 
-            try
-            {
-                var result = plist;
-                _logger.LogInformation($"Returning count: {result.Count}");
-                throw new Exception("Excepiton :sorry mario the princess is in another castle :)");
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Something went wrong: {ex}");
-                return StatusCode(500, "Internal server error");
-            }
 
+            var result = plist;
+            throw new Exception("Excepiton :sorry mario the princess is in another castle :)");
+            return Ok(result);
         }
 
     }
